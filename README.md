@@ -6,7 +6,7 @@
 
 ## Стэк
 
-Ruby 2.7.0, Rails 7.0, Postgres 14.2, Docker.
+Ruby, Rails, Postgres, Docker.
 
 Для докер-образа использована рыба https://github.com/anansilva/docker-rails-api-postgres-template (репозиторий с заготовкой без указанной лицензии)
 

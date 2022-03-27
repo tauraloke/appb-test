@@ -5,6 +5,6 @@ Rails.application.routes.draw do
     resources :messages, defaults: {format: :json}
   end
 
-  root "chats#index"
+  root "chats#index", defaults: {format: :json}
 
 end

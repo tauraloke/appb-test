@@ -10,6 +10,18 @@ Ruby, Rails, Postgres, Docker.
 
 Для докер-образа использована рыба https://github.com/anansilva/docker-rails-api-postgres-template (репозиторий с заготовкой без указанной лицензии)
 
+## Запуск
+
+- Установить Docker, Docker Compose.
+- Перейти в папку проекта
+- Выполнить
+ `docker-compose build`
+ `docker-compose up`
+ `docker exec appbooster_web_1 rake db:create`
+ `docker exec appbooster_web_1 rake db:migrate`
+ `docker exec appbooster_web_1 rake db:seed`
+- По адресу http://localhost:3000 должно стать доступно API.
+
 ## Оценка потенциала масштабирования
 
 - Не представляется возможным шардировать базу данных по сценарию мультитенантного приложения с созданием полностью самодостаточных кластеров - поскольку в исходном ТЗ не заявлена сегментация пользователей по раздельным компаниям. Однако можно разделить некоторые таблицы для улучшения производительности (например, уменьшения размеров).
@@ -23,3 +35,11 @@ Ruby, Rails, Postgres, Docker.
 
 - uuid вместо инкрементальных `id` у сущностей.
 - Поддержка Unicode и эмодзи в поле `messages`.`content`
+
+## Линтер
+
+`docker exec appbooster_web_1 rubocop`
+
+## Тесты
+
+`docker exec rspec`

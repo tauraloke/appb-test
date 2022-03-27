@@ -4,11 +4,11 @@ class Chat < ApplicationRecord
     has_many :messages
     has_one :last_message, class_name: 'Message'
 
-    def unread_messages_count(user_id)
-        chat_participants.where(user_id: user_id).last&.
+    def users_except(user)
+        users.where.not(id: user&.id)
     end
 
-    def users_except_me(user_id)
-        users.where.not(user_id: user_id)
+    def unread_messages_count_of_user(user)
+        chat_participants.where(user_id: user.id).last&.unread_messages_count
     end
 end

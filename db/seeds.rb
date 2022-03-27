@@ -15,7 +15,7 @@ MessageViewer.destroy_all
 users = User.create( [ { username: 'Protagonist' }, { username: 'Antagonist' } ] )
 chats = Chat.create( [ { title: nil } ] )
 chat_participants = ChatParticipant.create( [
-    { user_id: users[0].id, chat_id: chats[0].id },
+    { user_id: users[0].id, chat_id: chats[0].id, unread_messages_count: 1 },
     { user_id: users[1].id, chat_id: chats[0].id }
 ])
 messages = Message.create([

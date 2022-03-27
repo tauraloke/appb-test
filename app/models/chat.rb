@@ -9,6 +9,6 @@ class Chat < ApplicationRecord
   end
 
   def unread_messages_count_of_user(user)
-    chat_participants.where(user_id: user.id).last&.unread_messages_count
+    chat_participants.where(user_id: user.id).last&.unread_messages_count || 0
   end
 end

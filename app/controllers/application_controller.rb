@@ -9,10 +9,10 @@ class ApplicationController < ActionController::Base
   end
 
   def limit
-    @limit ||= params[:limit]
+    @limit ||= params[:limit] || DEFAULT_LIMIT
   end
 
   def offset
-    @offset ||= params[:offset]
+    @offset ||= params[:offset] || DEFAULT_OFFSET
   end
 end

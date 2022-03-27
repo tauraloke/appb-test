@@ -42,4 +42,4 @@ Ruby, Rails, Postgres, Docker.
 
 ## Тесты
 
-`docker exec appbooster_web_1 bundle exec rspec rspec`
+`docker exec appbooster_web_1 bundle exec rspec`

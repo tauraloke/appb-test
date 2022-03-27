@@ -7,7 +7,7 @@ RSpec.describe ChatsController, type: :controller do
     let!(:chat_participant) { FactoryBot.create :chat_participant, user_id: current_user.id, chat_id: chat.id }
 
     before do
-      get :index, params: { }, xhr: true
+      get :index, params: {}, xhr: true
     end
 
     it 'valid' do
@@ -18,6 +18,5 @@ RSpec.describe ChatsController, type: :controller do
       expect(parsed_body.dig(0, 'id')).to eq(chat.id)
       expect(parsed_body.dig(0, 'users', 0, 'id')).to be_nil
     end
-
   end
 end

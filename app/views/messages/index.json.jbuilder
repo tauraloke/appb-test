@@ -6,4 +6,5 @@ json.array! @messages do |message|
     json.user_id message.user_id
     json.username message.user&.username
     json.avatar_url message.user&.avatar_attachment
+    json.viewed_by message.message_viewers.select(:user_id).pluck(:user_id)
 end

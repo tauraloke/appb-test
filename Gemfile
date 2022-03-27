@@ -73,4 +73,5 @@ group :test do
     gem lib, git: "https://github.com/rspec/#{lib}.git", branch: 'main'
   end
   gem 'factory_bot_rails'
+  gem 'rails-controller-testing', '~> 1.0.5'
 end

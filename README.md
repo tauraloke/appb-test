@@ -8,7 +8,9 @@
 
 Ruby, Rails, Postgres, Docker.
 
-Для докер-образа использована рыба https://github.com/anansilva/docker-rails-api-postgres-template (репозиторий с заготовкой без указанной лицензии)
+Для докер-образа использована рыба https://github.com/anansilva/docker-rails-api-postgres-template (репозиторий с заготовкой без указанной лицензии).
+
+Шаблоны для json используют JBuilder и хранятся в `app/views`.
 
 ## Запуск
 

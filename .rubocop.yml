@@ -1,0 +1,46 @@
+AllCops:
+  TargetRubyVersion: 2.6.0
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'bin/**/*'
+    - 'Gemfile'
+    - 'vendor/**/*'
+
+# Offense count: 3
+Metrics/AbcSize:
+  Max: 25
+
+# Offense count: 2
+# Configuration parameters: CountComments, ExcludedMethods.
+Metrics/BlockLength:
+  Max: 60
+  Exclude:
+    - 'spec/**/*.rb'
+
+# Offense count: 57
+# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
+# URISchemes: http, https
+Metrics/LineLength:
+  Max: 150
+
+# Offense count: 3
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Max: 25
+
+# Offense count: 26
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
+Lint:
+  Enabled: false

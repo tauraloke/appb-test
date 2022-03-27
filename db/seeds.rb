@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
@@ -12,17 +14,22 @@ ChatParticipant.destroy_all
 Message.destroy_all
 MessageViewer.destroy_all
 
-users = User.create( [ { username: 'Protagonist' }, { username: 'Antagonist' } ] )
-chats = Chat.create( [ { title: nil } ] )
-chat_participants = ChatParticipant.create( [
-    { user_id: users[0].id, chat_id: chats[0].id, unread_messages_count: 1 },
-    { user_id: users[1].id, chat_id: chats[0].id }
-])
+users = User.create([{ username: 'Protagonist' }, { username: 'Antagonist' }])
+chats = Chat.create([{ title: nil }])
+ChatParticipant.create([
+                         {
+                           user_id: users[0].id,
+                           chat_id: chats[0].id,
+                           unread_messages_count: 1
+                         },
+                         {
+                           user_id: users[1].id,
+                           chat_id: chats[0].id
+                         }
+                       ])
 messages = Message.create([
-    { user_id: users[0].id, chat_id: chats[0].id, content: 'First message' },
-    { user_id: users[1].id, chat_id: chats[0].id, content: 'Second message' },
-])
+                            { user_id: users[0].id, chat_id: chats[0].id, content: 'First message' },
+                            { user_id: users[1].id, chat_id: chats[0].id, content: 'Second message' }
+                          ])
 chats[0].update(last_message_id: messages[1].id)
-message_viewers = MessageViewer.create( [
-    { user_id: users[1].id, chat_id: chats[0].id, message_id: messages[0].id }
-])
+MessageViewer.create([{ user_id: users[1].id, chat_id: chats[0].id, message_id: messages[0].id }])

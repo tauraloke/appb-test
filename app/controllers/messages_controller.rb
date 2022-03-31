@@ -1,16 +1,16 @@
 class MessagesController < ApplicationController
   api :GET, 'chats/:id/messages'
   desc 'List of messages in a chat.'
-  param :chat_id, Integer, desc: 'chat identifier', required: true
-  param :limit, Integer, desc: 'limit of results', required: false
-  param :offset, Integer, desc: 'offset of a result page', required: false
+  param :chat_id, :number, desc: 'chat identifier', required: true
+  param :limit, :number, desc: 'limit of results', required: false
+  param :offset, :number, desc: 'offset of a result page', required: false
   def index
     @messages = chat.messages.includes(:user).limit(limit).offset(offset).order(created_at: :asc)
   end
 
   api :PUT, 'chats/:id/messages/mark_as_read'
   desc 'Mark messages as read by ids.'
-  param :ids, Array, of: Integer, desc: 'message identifiers', required: true
+  param :ids, Array, of: :number, desc: 'message identifiers', required: true
   def mark_as_read
     message_ids_to_marking = chat.messages
                                  .where

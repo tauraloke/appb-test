@@ -11,7 +11,7 @@ RSpec.describe MessagesController, type: :controller do
   describe 'GET index' do
     context 'when get a request' do
       before do
-        get :index, params: { chat_id: chat.id }, xhr: true
+        get :index, params: { chat_id: chat.id.to_i }, xhr: true
       end
 
       it 'then HTTP status is OK' do
@@ -41,7 +41,7 @@ RSpec.describe MessagesController, type: :controller do
   describe 'PUT mark_as_read' do
     context 'when get a request' do
       before do
-        put :mark_as_read, params: { ids: [message.id], chat_id: chat.id }, xhr: true
+        put :mark_as_read, params: { ids: [message.id.to_i], chat_id: chat.id }, xhr: true
       end
 
       it 'then HTTP status is OK' do

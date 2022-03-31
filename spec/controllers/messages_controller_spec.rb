@@ -13,14 +13,28 @@ RSpec.describe MessagesController, type: :controller do
       get :index, params: { chat_id: chat.id }, xhr: true
     end
 
-    it 'valid' do
-      expect(response).to have_http_status(:ok)
-      expect(response).to render_template('index')
-      expect(response.content_type).to eq('application/json; charset=utf-8')
-      parsed_body = JSON.parse(response.body)
-      expect(parsed_body.dig(0, 'id')).to eq(message.id)
-      expect(parsed_body.dig(0, 'username')).to eq(second_user.username)
-      expect(parsed_body.dig(0, 'content')).to eq(message.content)
+    context 'when get a request' do
+      it 'then HTTP status is OK' do
+        expect(response).to have_http_status(:ok)
+      end
+      it 'then an using template is `index`' do
+        expect(response).to render_template('index')
+      end
+      it 'then a response content type is JSON' do
+        expect(response.content_type).to eq('application/json; charset=utf-8')
+      end
+      context 'and when a response body is parsed' do
+        let(:parsed_body) { JSON.parse(response.body) }
+        it 'then message id is valid' do
+          expect(parsed_body.dig(0, 'id')).to eq(message.id)
+        end
+        it 'then first user in a response has a valid username' do
+          expect(parsed_body.dig(0, 'username')).to eq(second_user.username)
+        end
+        it 'then a message content is valid' do
+          expect(parsed_body.dig(0, 'content')).to eq(message.content)
+        end
+      end
     end
   end
 end

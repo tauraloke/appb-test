@@ -8,8 +8,28 @@ class MessagesController < ApplicationController
     @messages = chat.messages.includes(:user).limit(limit).offset(offset).order(created_at: :asc)
   end
 
+  api :POST, 'chats/:id/messages'
+  desc 'Add a new message to the chat.'
+  param :chat_id, :number, desc: 'chat identifier'
+  param :content, String, desc: 'message text'
+  def create
+    ActiveRecord::Base.transaction do
+      @message = chat.messages.create({
+                                        user_id: current_user.id,
+                                        content: content
+                                      })
+      chat.chat_participants
+          .where
+          .not(user_id: current_user.id)
+          .update_all('unread_messages_count = unread_messages_count + 1')
+    end
+
+    render json: { message: @message, status: 'OK' }
+  end
+
   api :PUT, 'chats/:id/messages/mark_as_read'
   desc 'Mark messages as read by ids.'
+  param :chat_id, :number, desc: 'chat identifier'
   param :ids, Array, of: :number, desc: 'message identifiers'
   def mark_as_read
     message_ids_to_marking = chat.messages
@@ -40,5 +60,9 @@ class MessagesController < ApplicationController
 
   def ids
     @ids ||= params[:ids] || []
+  end
+
+  def content
+    @content ||= params[:content]
   end
 end

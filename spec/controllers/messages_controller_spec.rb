@@ -38,8 +38,36 @@ RSpec.describe MessagesController, type: :controller do
     end
   end
 
+  describe 'POST create' do
+    context 'when post a request' do
+      let(:data) { { content: '~new content~', chat_id: chat.id } }
+      before do
+        post :create, params: data, xhr: true
+      end
+
+      it 'then HTTP status is OK' do
+        expect(response).to have_http_status(:ok)
+      end
+      it 'then a response content type is JSON' do
+        expect(response.content_type).to eq('application/json; charset=utf-8')
+      end
+      context 'and when a response body is parsed' do
+        let(:parsed_body) { JSON.parse(response.body) }
+        it 'then message id is valid' do
+          expect(parsed_body['status']).to eq('OK')
+        end
+        it 'then content is valid' do
+          expect(parsed_body.dig('message', 'content')).to eq(data[:content])
+        end
+        it 'then message is created in DB' do
+          expect(Message.where(id: parsed_body.dig('message', 'id')).count).to eq(1)
+        end
+      end
+    end
+  end
+
   describe 'PUT mark_as_read' do
-    context 'when get a request' do
+    context 'when put a request' do
       before do
         put :mark_as_read, params: { ids: [message.id.to_i], chat_id: chat.id }, xhr: true
       end

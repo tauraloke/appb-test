@@ -63,5 +63,30 @@ RSpec.describe MessagesController, type: :controller do
         expect(chat_participant.reload.unread_messages_count).to eq(0)
       end
     end
+
+    context 'when get a request with empty ids' do
+      before do
+        put :mark_as_read, params: { ids: [], chat_id: chat.id }, xhr: true
+      end
+
+      it 'then HTTP status is OK' do
+        expect(response).to have_http_status(:ok)
+      end
+      it 'then a response content type is JSON' do
+        expect(response.content_type).to eq('application/json; charset=utf-8')
+      end
+      context 'and when a response body is parsed' do
+        let(:parsed_body) { JSON.parse(response.body) }
+        it 'then message id is valid' do
+          expect(parsed_body['status']).to eq('OK')
+        end
+      end
+      it 'then created a new message viewer record' do
+        expect(MessageViewer.where(user_id: current_user.id).count).to eq(0)
+      end
+      it 'then updated a message counter for a user in the chat' do
+        expect(chat_participant.reload.unread_messages_count).to eq(1)
+      end
+    end
   end
 end

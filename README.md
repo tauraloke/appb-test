@@ -48,3 +48,7 @@ Ruby, Rails, Postgres, Docker.
 ## Тесты
 
 `docker exec appbooster_web_1 bundle exec rspec`
+
+## Документация API
+
+http://localhost:3000/apipie

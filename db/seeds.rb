@@ -32,4 +32,4 @@ messages = Message.create([
                             { user_id: users[1].id, chat_id: chats[0].id, content: 'Second message' }
                           ])
 chats[0].update(last_message_id: messages[1].id)
-MessageViewer.create([{ user_id: users[1].id, chat_id: chats[0].id, message_id: messages[0].id }])
+MessageViewer.create([{ user_id: users[1].id, message_id: messages[0].id }])

@@ -14,7 +14,7 @@ class MessagesController < ApplicationController
   param :content, String, desc: 'message text'
   def create
     ActiveRecord::Base.transaction do
-      @message = chat.messages.create({
+      @message = chat.messages.create!({
                                         user_id: current_user.id,
                                         content: content
                                       })
@@ -42,7 +42,7 @@ class MessagesController < ApplicationController
       chat.chat_participant_by_user(current_user)
           .decrement!(:unread_messages_count, message_ids_to_marking.size)
 
-      MessageViewer.create(message_ids_to_marking.map do |message_id|
+      MessageViewer.create!(message_ids_to_marking.map do |message_id|
         {
           message_id: message_id,
           user_id: current_user.id

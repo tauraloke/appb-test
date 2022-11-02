@@ -1,4 +1,4 @@
-FROM ruby
+FROM ruby:3.1.1
 RUN apt-get update -qq && apt-get install -y postgresql-client
 WORKDIR /app
 COPY Gemfile /app/Gemfile

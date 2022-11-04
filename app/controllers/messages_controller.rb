@@ -14,10 +14,7 @@ class MessagesController < ApplicationController
   param :content, String, desc: 'message text'
   def create
     ActiveRecord::Base.transaction do
-      @message = chat.messages.create!({
-                                        user_id: current_user.id,
-                                        content: content
-                                      })
+      @message = chat.messages.create!(user_id: current_user.id, content: content)
       chat.chat_participants
           .where
           .not(user_id: current_user.id)
@@ -32,16 +29,6 @@ class MessagesController < ApplicationController
   param :chat_id, :number, desc: 'chat identifier'
   param :ids, Array, of: :number, desc: 'message identifiers'
   def mark_as_read
-    chat_message_ids = chat.messages
-                           .where
-                           .not(user_id: current_user.id)
-                           .where(id: ids)
-                           .select(:id)
-                           .pluck(:id)
-    marked_message_ids = current_user.message_viewers
-                                     .where(message_id: chat_message_ids)
-                                     .pluck(:message_id)
-    message_ids_to_marking = chat_message_ids.select{|id| !marked_message_ids.include?(id)}
     ActiveRecord::Base.transaction do
       chat.chat_participant_by_user(current_user)
           .decrement!(:unread_messages_count, message_ids_to_marking.size)
@@ -68,5 +55,20 @@ class MessagesController < ApplicationController
 
   def content
     @content ||= params[:content]
+  end
+
+  def message_ids_to_marking
+    @message_ids_to_marking ||= begin
+      chat_message_ids = chat.messages
+                             .where
+                             .not(user_id: current_user.id)
+                             .where(id: ids)
+                             .select(:id)
+                             .pluck(:id)
+      marked_message_ids = current_user.message_viewers
+                                       .where(message_id: chat_message_ids)
+                                       .pluck(:message_id)
+      chat_message_ids.reject { |id| marked_message_ids.include?(id) }
+    end
   end
 end
